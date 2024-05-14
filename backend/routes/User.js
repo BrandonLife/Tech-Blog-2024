@@ -1,8 +1,16 @@
 const router = require("express").Router();
+const jwt = require("jsonwebtoken");
 
-const { saveUser, getUser } = require("../controllers/User");
+const {
+	registerUser,
+	loggInUser,
+	getDashboard,
+	findUser,
+} = require("../controllers/User");
 
-router.get("/get", getUser);
-router.post("/create/user", saveUser);
+router.post("/login", loggInUser);
+router.post("/register", registerUser);
+router.get("/dashboard", getDashboard);
+router.get("/getUser", findUser);
 
 module.exports = router;

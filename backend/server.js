@@ -3,19 +3,27 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
 const userRoutes = require("./routes/User");
 const threadRoutes = require("./routes/Thread");
+const createAdminAccount = require("./script/admin");
 dotenv.config();
 const PORT = process.env.PORT;
-const MONGO_URI = process.env.MONGO_URI;
 //Initialize the app
 const app = express();
 
 //set middleware
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors());
-
+app.use(
+	cors({
+		origin: ["http://localhost:3000", "http://localhost:3000/login"],
+		methods: ["GET", "POST"],
+		credentials: true,
+	})
+);
+app.use(cookieParser());
+createAdminAccount();
 mongoose
 	.connect(process.env.MONGO_URI)
 	.then(() => console.log("MongoDB Connected..."))
